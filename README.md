@@ -1,2 +1,2 @@
-# Cherchez-La-Film
+# Cherchez La Film
 Movie Finder App
