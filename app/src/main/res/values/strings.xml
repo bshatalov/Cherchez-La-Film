@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">Cherchez La Film</string>
-    <string name="short_description">Краткое описание фильма</string>
     <string name="details">Детали</string>
+    <string name="chooser_title">Поделиться</string>
+    <string name="detailsEditTextHint">Поделитесь своими комментариями</string>
+
+    <string name="short_description">Краткое описание фильма</string>
+    <string name="long_description">Описание фильма</string>
+
     <string name="coming2america_short">Поездка в Америку 2</string>
     <string name="coming2america_long">Аким вынужден вернуться в Штаты, так как узнает, что там живёт его давно потерянный сын, будущий наследник престола Замунды.</string>
     <string name="david_kop_short">История Дэвида Копперфилда</string>
@@ -19,9 +24,9 @@
     <string name="kingsman_short">King\'s man: Начало</string>
     <string name="kingsman_long">«Kingsman» — организация супершпионов, действующая на благо человечества вдали от любопытных глаз. И один из первых и самых талантливых оперативников в истории организации — Конрад, молодой и наглый сын герцога Оксфордского. Как и многие его друзья он мечтал служить на благо Англии, но в итоге оказался втянутым в тайный мир шпионов и убийц.</string>
     <string name="tenet_short">Довод</string>
-    <string name="tenet_long">Новый фильм Кристофера Нолана</string>
+    <string name="tenet_long">Новый фильм Кристофера Нолана. An action epic revolving around international espionage, time travel, and evolution. Possibly about a man trying to prevent World War 3 through time travel and rebirth. </string>
     <string name="french_short">Французский диспетчер</string>
     <string name="french_long">Новый фильм Уэса Андерсона. В центре сюжета — отделение американской газеты, расположенное в Париже.</string>
-	
-
+    <string name="bond_short">No Time to Die</string>
+    <string name="bond_long">Джеймс Бонд оставил оперативную службу и наслаждается спокойной жизнью на Ямайке. Все меняется, когда на острове появляется его старый друг Феликс Лейтер из ЦРУ с просьбой о помощи. Миссия по спасению похищенного ученого оказывается опаснее, чем предполагалось изначально. Бонд попадает в ловушку к таинственному злодею, вооруженному опасным технологическим оружием.</string>
 </resources>
