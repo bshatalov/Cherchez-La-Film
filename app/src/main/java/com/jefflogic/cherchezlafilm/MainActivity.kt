@@ -19,7 +19,6 @@ Homework 1:
     +Возвращенные значения чекбокса и текстового комментария выводим в лог
  */
 
-
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
