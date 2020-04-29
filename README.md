@@ -1,2 +1,2 @@
-# Cherchez La Film
-Movie Finder App
+# Cherchez La Film - Ищите фильмы!!
+Movie Finder App using Kotlin
