@@ -1,33 +1,33 @@
 package com.jefflogic.cherchezlafilm
 
 /* TODO
-Homework 1:
+Homework 5:
 
-+1. Создайте проект
-+2. Залейте проект на GitHub
-+3. Добавьте описание проекта в заголовке и Read.me
-+4. На первом экране своего приложения создайте несколько картинок с фильмами. К каждой картинке добавьте название фильма и кнопку “Детали”. Изображения любые, название и описание произвольные
-+5. По нажатию на Детали -
-  +выделяйте другим цветом название выбранного фильма,
-  +открывайте новое окно, где
-  +показывайте картинку и
-  +описание фильма
-+6. Сохраняйте выделение фильма при повороте и при возвращении со второго экрана
-+7. Добавьте кнопку “Пригласить друга” и отправляйте приглашение по вашему выбору (почта, смс, социальные сети)
-8. *+Добавьте на втором экране checkbox “Нравится” и текстовое поле для комментария.
-    +Возвращайте значение чекбокса и текст комментария при переходе обратно на первый экран.
-    +Возвращенные значения чекбокса и текстового комментария выводим в лог
- */
++1. Создайте различные стили для текста заголовка и описания
++2. Используйте стили на экране со списком и детальном экране
++3. Добавьте поддержку английского и русского языков для элементов интерфейса, например, для кнопки "детали" и "пригласить друга"
++4. Используйте векторное изображение из стандартного набора для кнопки пригласить друга
++5. Добавьте поддержку альбомной ориентации. Интерфейс должен отличаться. Например, в портретной 2 фильма в строке списка, а в альбомной 4
++6. Создайте кастомный диалог подтверждения при выходе из приложения при нажатии кнопки back (использовать метод onBackPressed)
++7. * Добавьте кнопку переключения темы в приложении, например дневной\ночной
 
+*/
+
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -53,12 +53,34 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        orientation = getResources().getConfiguration().orientation
+
         setSupportActionBar(mToolbar)
         mToolbar.setTitleTextColor(Color.WHITE)
 
         if (itemCount == 0) initLists()
 
-        mRecyclerView.layoutManager = LinearLayoutManager(this)
+        val gridLayoutManagerLand = GridLayoutManager(
+            this,
+            2,  /* число столбцов */
+            LinearLayoutManager.VERTICAL,  /* вертикальная ориентация */
+            false
+        )
+
+        val gridLayoutManagerPort = GridLayoutManager(
+            this,
+            1,  /* число столбцов */
+            LinearLayoutManager.VERTICAL,  /* вертикальная ориентация */
+            false
+        )
+
+        when(orientation) {
+            Configuration.ORIENTATION_PORTRAIT ->
+                mRecyclerView.layoutManager = gridLayoutManagerPort
+            Configuration.ORIENTATION_LANDSCAPE ->
+                mRecyclerView.layoutManager = gridLayoutManagerLand
+        }
+
         mRecyclerView.adapter = RecyclerAdapter()
         mRecyclerView.setOnScrollListener(object : HidingScrollListener() {
             override fun onHide() = hideViews()
@@ -70,6 +92,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             RecyclerItemViewHolder.mItemSelected = savedInstanceState.getInt(SELECTED_POSITION_CODE)
         }
         mFabButton.setOnClickListener(this)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P){
+            mFabButton.visibility = View.VISIBLE
+        } else {
+            mFabButton.visibility = View.GONE
+        }
+
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.getDefaultNightMode())
     }
 
     override fun onResume() {
@@ -78,6 +108,28 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             Log.d(TAG, "Comments: ${MainActivity.getItem(lastReturnedPosition!!).comment}")
             Log.d(TAG, "Like    : ${MainActivity.getItem(lastReturnedPosition!!).like}")
         }
+    }
+
+    override fun onBackPressed() {
+        //super.onBackPressed()
+        openQuitDialog()
+    }
+
+    private fun openQuitDialog() {
+        val quitDialog = AlertDialog.Builder(
+            this@MainActivity
+        )
+        quitDialog.setTitle("Выход: Вы уверены?")
+        quitDialog.setPositiveButton("Таки да!", object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                finish()
+            }
+        })
+        quitDialog.setNegativeButton("Нет", object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+            }
+        })
+        quitDialog.show()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -175,17 +227,44 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun changeTheme() {
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
+    }
+
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.mFabButton -> inviteFriends()
+            /*R.id.mFabButton -> inviteFriends()*/
+            R.id.mFabButton -> changeTheme()
         }
     }
 
     companion object {
         private val mItemList: MutableList<Item> = ArrayList()
-        fun getItem(position: Int) = mItemList[position - 1]
+        var orientation: Int = Configuration.ORIENTATION_UNDEFINED
+
+        fun getItem(position: Int): Item {
+            /*Log.d(TAG, "getItem orientation = $orientation position = $position")*/
+
+            return when (orientation) {
+                Configuration.ORIENTATION_PORTRAIT -> mItemList[position - 1]
+                Configuration.ORIENTATION_LANDSCAPE -> mItemList[position - 2]
+                else -> mItemList[position - 1]
+            }
+        }
+
         val itemCount: Int
-            get() = mItemList.size
+            get() {
+                /*Log.d(TAG, "itemCount = ${mItemList.size}")*/
+                return when (orientation) {
+                    Configuration.ORIENTATION_PORTRAIT -> return mItemList.size
+                    Configuration.ORIENTATION_LANDSCAPE -> return mItemList.size + 1
+                    else -> return mItemList.size
+                }
+            }
 
         var lastReturnedPosition : Int? = null
    }

@@ -23,8 +23,7 @@ class RecyclerItemViewHolder(
     ,val mItemImageView     : AppCompatImageView
     ,val mItemTextView      : AppCompatTextView
 ) : ViewHolder(parent) , View.OnClickListener{
-    //fun setItem(imageResID: Int, text: CharSequence?, note: CharSequence?) {
-    fun setItem(position: Int, item: Item /*imageResID: Int, textResID: Int, noteResID: Int*/) {
+    fun setItem(position: Int, item: Item ) {
         //Log.d(TAG, "position = $position , mItemSelected = $mItemSelected, itemCount = ${MainActivity.itemCount}")
         if (position == mItemSelected) {
             this.itemSelect(position)
@@ -32,12 +31,6 @@ class RecyclerItemViewHolder(
 
         mItemImageView.setImageResource(item.image)
         mItemTextView.text = mItemTextView.context.getString(item.text)
-        //mItemImageView.contentDescription = mItemImageView.context.getString(item.note)
-/*
-        mItemImageView.setImageResource(imageResID)
-        mItemImageView.contentDescription = mItemImageView.context.getString(noteResID)
-        mItemTextView.text = mItemTextView.context.getString(textResID)
-*/
     }
 
     override fun onClick(v: View) {
@@ -89,7 +82,6 @@ class RecyclerItemViewHolder(
             val itemTextView  = parent.findViewById<View>(R.id.mItemTextView ) as AppCompatTextView
             val itemImageView = parent.findViewById<View>(R.id.mItemImageView) as AppCompatImageView
 
-            //return RecyclerItemViewHolder(parent, itemImageView, itemTextView, itemDetailsButton)
             val x = RecyclerItemViewHolder(parent, itemImageView, itemTextView)
             val itemDetailsButton = parent.findViewById<View>(R.id.mItemDetailsButton) as AppCompatButton
             itemDetailsButton.setOnClickListener(x)
