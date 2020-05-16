@@ -21,9 +21,11 @@
             tools:ignore="MissingConstraints"
             tools:src="@drawable/bond" />
 
+        <!--style="@style/Base.TextAppearance.AppCompat.Body2"-->
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/mItemTextView"
-            style="@style/Base.TextAppearance.AppCompat.Body2"
+            style="colorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -42,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="1dp"
             android:text="@string/details"
+            style="@style/TextAppearance.AppCompat.Widget.Button.Colored"
             card_view:layout_constraintBottom_toBottomOf="parent"
             card_view:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -34,27 +34,6 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener{
         mDetailsImageViewLike.setOnClickListener(this)
         mDetailsEditTextComments.setText(MainActivity.getItem(position).comment)
 
-/*
-        mDetailsImageView.setImageResource(MainActivity.getItemImageResId(position))
-        mDetailsTextView.text = mDetailsTextView.context.getString(MainActivity.getItemNoteResId(position))
-*/
-
-        /*
-        if (intentResult == null) {
-            intentResult = Intent()
-        }
-        mButtonOk = findViewById(R.id.buttonOk)
-        mButtonOk.setOnClickListener(View.OnClickListener {
-            intentResult!!.putExtra(
-                MainActivity.commentsCode,
-                mTextViewComments.getText().toString()
-            )
-            intentResult!!.putExtra(MainActivity.likeCode, mCheckBoxLike.isChecked())
-            setResult(Activity.RESULT_OK, intentResult)
-            finish()
-        }
-        )
-         */
     }
 
     fun setImageLike(){
