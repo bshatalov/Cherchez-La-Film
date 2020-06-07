@@ -1,7 +1,6 @@
 package com.jefflogic.cherchezlafilm
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_details.*
@@ -37,21 +36,19 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener{
     }
 
     fun setImageLike(){
-        if (!(MainActivity.getItem(position).like ?: false))
-            // Like = null or false
+        if (MainActivity.getItem(position).like)
             mDetailsImageViewLike.setImageResource(
-                R.drawable.ic_favorite_border_black_24dp
+                R.drawable.ic_favorite_green_24dp
             )
         else
-            // Like = true
             mDetailsImageViewLike.setImageResource(
-                R.drawable.ic_favorite_black_24dp
+                R.drawable.ic_favorite_border_green_24dp
             )
     }
 
     fun imageViewLikeClick() {
         // inversion of Like
-        MainActivity.getItem(position).like = !(MainActivity.getItem(position).like ?: false)
+        MainActivity.getItem(position).like = !MainActivity.getItem(position).like
         setImageLike()
     }
 
