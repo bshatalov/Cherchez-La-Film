@@ -88,6 +88,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             },
             //LongClickListener:
             { itemView, filmItem, position ->
+                // new item is selected
+                itemSelect(itemView, filmItem, position)
                 setImageLike(itemView, filmItem, position)
                 mRecyclerView.adapter?.notifyItemChanged(position)
                 Log.d(TAG, "longClickListener: notifyItemChanged at position $position")
@@ -130,6 +132,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         // previous item -> unHighlight
         mItemTextViewSelected?.highlight(false)
 
+        // previous position
+        if (prevPosition != null) {
+            mRecyclerView.adapter?.notifyItemChanged(prevPosition)
+            Log.d(TAG, "itemSelect-notifyItemChanged at position $prevPosition")
+        };
+
         // save new selected item
         mItemTextViewSelected = itemView.mItemTextView
         mItemSelected     = position
@@ -138,11 +146,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         mItemTextViewSelected?.highlight(true)
 
         // notify adapter about changes
-        // previous position
-        if (prevPosition != null) {
-            mRecyclerView.adapter?.notifyItemChanged(prevPosition)
-            Log.d(TAG, "itemSelect-notifyItemChanged at position $prevPosition")
-        };
         // new position
         mRecyclerView.adapter?.notifyItemChanged(position)
         Log.d(TAG, "itemSelect-notifyItemChanged at position $position")
