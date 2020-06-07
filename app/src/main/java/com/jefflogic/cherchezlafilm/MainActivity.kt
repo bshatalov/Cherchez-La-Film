@@ -11,8 +11,8 @@ Homework 6: RecyclerView
    --или тап на ImageView в виде сердечка рядом с названием фильма
 3. +Создайте экран, где будет отображаться список Избранного
 4. +Сделайте так, чтобы в список Избранного можно было !!удалять элементы (и, если получится, добавлять элементы)
-5. +Написать собственный ItemDecoration
-6. * Самостоятельно изучите RecyclerView.ItemAnimator, создайте свои собственные анимации
+5. +*Написать собственный ItemDecoration
+6. -* Самостоятельно изучите RecyclerView.ItemAnimator, создайте свои собственные анимации
 */
 
 import android.content.Context
@@ -57,9 +57,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         orientation = getResources().getConfiguration().orientation
 
-        //setSupportActionBar(mToolbar)
-        //mToolbar.setTitleTextColor(Color.WHITE)
-
         if (items.size == 0) initItems()
 
         initRecycler()
@@ -67,7 +64,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         // Восстановить состояние
         if (savedInstanceState != null) {
-            //FilmItemViewHolder.mItemSelected = savedInstanceState.getInt(SELECTED_POSITION_CODE)
             mItemSelected = savedInstanceState.getInt(SELECTED_POSITION_CODE)
         }
 
@@ -84,26 +80,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         )
 
         mRecyclerView.layoutManager = layoutManager
-/*
-        mRecyclerView.adapter = FilmItemAdapter(LayoutInflater.from(this), mItemList, object: FilmItemAdapter.OnFilmClickListener{
-            override fun onFilmClick(filmItem: FilmItem) {
-                //startActivity
-            }
-        })
-*/
+
         mRecyclerView.adapter = FilmItemAdapter(LayoutInflater.from(this), items,
             //ClickListener: to mItemDetailsButton
-            { itemView, filmItem, position /*, itemPosition*/ ->
-                itemDetailsClick(/*v, */itemView, filmItem, position)
-                //startActivity -> it: FilmItem
-                //Toast.makeText(this, filmItem.note, Toast.LENGTH_SHORT).show()
-                //val item = items[realPosition] //items.find {filmItem === it }
-                //filmItem.color = Color.RED
+            { itemView, filmItem, position ->
+                itemDetailsClick(itemView, filmItem, position)
             },
             //LongClickListener:
-            { itemView, filmItem, position /*, itemPosition*/ ->
-                //Toast.makeText(this, filmItem.note, Toast.LENGTH_SHORT).show()
-                //val item = items[realPosition] //items.find {filmItem === it }
+            { itemView, filmItem, position ->
                 setImageLike(itemView, filmItem, position)
                 mRecyclerView.adapter?.notifyItemChanged(position)
                 Log.d(TAG, "longClickListener: notifyItemChanged at position $position")
@@ -111,12 +95,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
         )
 
-/*
-        mRecyclerView.setOnScrollListener(object : HidingScrollListener() {
-            override fun onHide() = hideViews()
-            override fun onShow() = showViews()
-        })
-*/
         mRecyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (layoutManager.findLastVisibleItemPosition() == items.size) {
@@ -128,7 +106,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             }
         })
         val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
-        //itemDecoration.setDrawable(getDrawable(R.drawable.black_line_5dp)!!)
         mRecyclerView.addItemDecoration(itemDecoration)
 
         mSwipeRefreshLayout.setOnRefreshListener {
@@ -171,12 +148,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         Log.d(TAG, "itemSelect-notifyItemChanged at position $position")
     }
 
-    private fun itemDetailsClick(/*v: View, */itemView: View, filmItem: FilmItem, position: Int) {
-        //Log.d(TAG, "itemClick() at position $position")
+    private fun itemDetailsClick(itemView: View, filmItem: FilmItem, position: Int) {
         // new item is selected
         itemSelect(itemView, filmItem, position)
 
-        //val intent = Intent(v.context as Activity, DetailsActivity::class.java)
         val intent = Intent(this, DetailsActivity::class.java)
         intent.putExtra(POSITION_CODE, position)
         startActivityForResult(this, intent, REQUEST_CODE_LIKE, null)
@@ -197,7 +172,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             )
         }
     }
-
 
     class CustomItemDecoration(context: Context, orientation: Int) : DividerItemDecoration(context, orientation) {
         override fun onDraw(c: Canvas, parent: RecyclerView) {
@@ -226,9 +200,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             Log.d(TAG, "Comments: ${items[lastReturnedPosition!!].comment}")
             Log.d(TAG, "Like    : ${items[lastReturnedPosition!!].like}")
         }
+        // Обновить mRecyclerView при возврате
         if (mItemSelected != null) {
             mRecyclerView.adapter?.notifyItemChanged(mItemSelected!!)
-            Log.d(TAG, "onResume-notifyItemChanged at position $mItemSelected")
+            //Log.d(TAG, "onResume-notifyItemChanged at position $mItemSelected")
         }
         mRecyclerView.adapter?.notifyDataSetChanged()
     }
@@ -257,28 +232,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        //outState.putInt(SELECTED_POSITION_CODE, FilmItemViewHolder.mItemSelected?: -1)
         outState.putInt(SELECTED_POSITION_CODE, mItemSelected?: -1)
     }
-
-    // Вспомогательные методы
-/*
-    private fun hideViews() {
-        mToolbar.animate().translationY((-mToolbar.height).toFloat()).interpolator =
-            AccelerateInterpolator(2F)
-        val lp = mFabButton.layoutParams as FrameLayout.LayoutParams
-        val fabBottomMargin = lp.bottomMargin
-        mFabButton.animate().translationY(
-            (mFabButton.height +
-                    fabBottomMargin).toFloat()
-        ).setInterpolator(AccelerateInterpolator(2F)).start()
-    }
-
-    private fun showViews() {
-        mToolbar.animate().translationY(0F).interpolator = DecelerateInterpolator(2F)
-        mFabButton.animate().translationY(0F).setInterpolator(DecelerateInterpolator(2F)).start()
-    }
-*/
 
     private fun addRandom() {
         addElse((Math.random() * 10).toInt() + getColumnsNum())
@@ -295,7 +250,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private fun add(
          imageResID: Int
         ,textResID : Int
-        //,text : String
         ,noteResID : Int
     ) {
         items.add(
@@ -309,19 +263,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun initItems() {
-        Log.d(TAG, "initItems size = ${items.size}")
-
         add( R.drawable.coming_to_america_2_to_be_released_in_august_2020
             ,R.string.coming2america_short
             ,R.string.coming2america_long )
 
-        Log.d(TAG, "initItems size = ${items.size}")
-
         add( R.drawable.david_kop
             ,R.string  .david_kop_short
             ,R.string  .david_kop_long  )
-
-        Log.d(TAG, "initItems size = ${items.size}")
 
         add( R.drawable.emma
             ,R.string  .emma_short
@@ -373,16 +321,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-/*
-    fun onAddRemove(){
-        items.removeAt(2)
-        mRecyclerView.adapter?.notifyItemRemoved(2)
-
-        items.add(2, FilmItem(1,1,1))
-        mRecyclerView.adapter?.notifyItemInserted(2)
-    }
-*/
-
     private fun changeTheme() {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -393,7 +331,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun showFavourites() {
         val intent = Intent(this, FavouriteActivity::class.java)
-        //intent.putExtra(POSITION_CODE, position)
         startActivity(intent)
     }
 
@@ -425,31 +362,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             return items[getItemPos(position)]
         }
 
-/*
-        val itemCount: Int
-            get() {
-                return mItemList.size
-                */
-/*Log.d(TAG, "itemCount = ${mItemList.size}")*//*
-
-*/
-/*
-                return when (orientation) {
-                    Configuration.ORIENTATION_PORTRAIT -> return mItemList.size
-                    Configuration.ORIENTATION_LANDSCAPE -> return mItemList.size + 1
-                    else -> return mItemList.size
-                }
-*//*
-
-            }
-*/
-
         var lastReturnedPosition : Int? = null
     }
-
-    // region AA and BB
-    //
-    //
-    //endregion
 
 }

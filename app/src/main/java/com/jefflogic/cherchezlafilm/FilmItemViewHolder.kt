@@ -1,6 +1,5 @@
 package com.jefflogic.cherchezlafilm
 
-//import android.support.v7.widget.RecyclerView
 import android.view.View
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
@@ -10,15 +9,14 @@ import com.jefflogic.cherchezlafilm.MainActivity.Companion.mItemSelected
 import kotlinx.android.synthetic.main.item_film.view.*
 
 
-private val TAG: String = "MY" //RecyclerItemViewHolder::class.java.simpleName
+private val TAG: String = FilmItemViewHolder::class.java.simpleName
 
 class FilmItemViewHolder(
     itemView: View
-) : RecyclerView.ViewHolder(itemView) /*, View.OnClickListener*/{
+) : RecyclerView.ViewHolder(itemView) {
     fun bind(item: FilmItem, position: Int) {
         itemView.mItemImageView.setImageResource(item.image)
-        itemView.mItemTextView.text = item.textStr // itemView.mItemTextView.context.getString(item.text) + " " + (position - getColumnsNum() + 1)
-        //item.view = itemView
+        itemView.mItemTextView.text = item.textStr
         itemView.mItemTextView?.highlight(position == mItemSelected)
         if (item.like)
             itemView.mItemImageViewLike.setImageResource(
@@ -40,5 +38,4 @@ class FilmItemViewHolder(
         else
             this.setTextColor(ContextCompat.getColor(this.context, R.color.black))
     }
-
 }

@@ -16,10 +16,8 @@
         android:layout_margin="3dp"
         android:adjustViewBounds="true"
         tools:contentDescription="@string/short_description"
-        tools:src="@drawable/hitman"
+        tools:src="@tools:sample/avatars"
         />
-
-<!--    tools:src="@tools:sample/avatars"-->
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/mItemTextView"

@@ -5,20 +5,11 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_details.*
 
-/*
-import android.app.Activity
-import android.content.Intent
-import android.view.View
-import android.widget.*
-import kotlinx.android.synthetic.main.activity_details.*
-*/
-
 private val TAG: String = DetailsActivity::class.java.simpleName
 
 class DetailsActivity : AppCompatActivity(), View.OnClickListener{
     var position = -1
 
-    //private var intentResult: Intent? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
@@ -32,7 +23,6 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener{
         setImageLike()
         mDetailsImageViewLike.setOnClickListener(this)
         mDetailsEditTextComments.setText(MainActivity.getItem(position).comment)
-
     }
 
     fun setImageLike(){

@@ -14,16 +14,11 @@ private val TAG: String = DetailsActivity::class.java.simpleName
 
 
 class FilmItemAdapter(val inflater: LayoutInflater, val items: MutableList<FilmItem>
-                      , val clickListener: (itemView: View, filmItem: FilmItem, viewHolderPosition: Int/*, itemPosition: Int*/) -> Unit /* OnFilmClickListener*/
-                      , val longClickListener: (itemView: View, filmItem: FilmItem, viewHolderPosition: Int/*, itemPosition: Int*/) -> Boolean /* OnFilmClickListener*/
-
+                      , val clickListener    : (itemView: View, filmItem: FilmItem, viewHolderPosition: Int) -> Unit
+                      , val longClickListener: (itemView: View, filmItem: FilmItem, viewHolderPosition: Int) -> Boolean
 ) : RecyclerView.Adapter<ViewHolder>() {
 
-    //new:
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        //orientation = parent.getResources().getConfiguration().orientation
-        //Log.d(TAG, "onCreateViewHolder orientation = $orientation")
-
         if (parent.id == R.id.mRecyclerView) {
             if (viewType == VIEW_TYPE_ITEM) {
                 return FilmItemViewHolder(inflater.inflate(R.layout.item_film, parent, false))
@@ -40,54 +35,28 @@ class FilmItemAdapter(val inflater: LayoutInflater, val items: MutableList<FilmI
         throw RuntimeException("There is no type that matches the type $viewType + make sure your using types correctly")
     }
 
-    //new:
     override fun getItemCount(): Int {
         return basicItemCount + getColumnsNum()
     }
 
-/*
-    interface OnFilmClickListener {
-        fun onFilmClick(filmItem: FilmItem)
-    }
-*/
-
-    //new:
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        //Log.d(TAG, "onBindViewHolder orientation = $orientation position = $position ")
         if (holder is FilmItemViewHolder) {
             val itemPosition = position - getColumnsNum()
             val item = items[itemPosition]
             holder.bind(item, position)
-            holder.itemView.mItemDetailsButton.setOnClickListener{ clickListener(holder.itemView, item, position/*, itemPosition*/) }
-            holder.itemView.setOnLongClickListener{ longClickListener(holder.itemView, item, position/*, itemPosition*/) }
+            holder.itemView.mItemDetailsButton.setOnClickListener{ clickListener(holder.itemView, item, position) }
+            holder.itemView.setOnLongClickListener{ longClickListener(holder.itemView, item, position) }
         } else if (holder is FavouriteFilmItemViewHolder) {
             val itemPosition = position - getColumnsNum()
             val item = items[itemPosition]
             holder.bind(item, position)
-            holder.itemView.mItemDeleteBtn.setOnClickListener{ clickListener(holder.itemView, item, position/*, itemPosition*/) }
-            holder.itemView.setOnLongClickListener{ longClickListener(holder.itemView, item, position/*, itemPosition*/) }
+            holder.itemView.mItemDeleteBtn.setOnClickListener{ clickListener(holder.itemView, item, position) }
+            holder.itemView.setOnLongClickListener{ longClickListener(holder.itemView, item, position) }
         }
-
-//        if (!isPositionHeader(position)) {
-/*
-            val hholder = holder as FilmItemViewHolder
-            hholder.bind(items.get(position), position)
-*/
-            // we are taking header into account so all of our items are correctly positioned
-/*
-            hholder.setItem(
-                 position
-                ,MainActivity.getItem(position)
-            )
-*/
-//        }
     }
 
     val basicItemCount: Int
         get() = items.size
-
-    //our new getItemCount() that includes header View
-    //old:
 
     // returns viewType for a given position
     override fun getItemViewType(position: Int): Int {
@@ -102,7 +71,7 @@ class FilmItemAdapter(val inflater: LayoutInflater, val items: MutableList<FilmI
         return position < getColumnsNum()
     }
 
-    public fun removeAt(position: Int) {
+    fun removeAt(position: Int) {
         items.removeAt(getItemPos(position))
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, items.size)
@@ -110,6 +79,5 @@ class FilmItemAdapter(val inflater: LayoutInflater, val items: MutableList<FilmI
     companion object {
         private const val VIEW_TYPE_HEADER = 0
         private const val VIEW_TYPE_ITEM = 1
-        //var orientation: Int = Configuration.ORIENTATION_UNDEFINED
     }
 }
