@@ -3,7 +3,10 @@ package com.jefflogic.cherchezlafilm
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,40 +15,48 @@ import java.util.ArrayList
 
 private val TAG: String = FavouriteActivity::class.java.simpleName
 
-class FavouriteActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_favourite)
-        Log.d(TAG, "onCreate")
+class FilmFavouritesFragment : Fragment()  {
 
-        initItems()
-        initRecycler()
+    companion object {
+        const val TAG = "FilmFavouritesFragment"
+        //private var orientation: Int = Configuration.ORIENTATION_UNDEFINED
+
+        fun newInstance(): FilmFavouritesFragment {
+            val fragment = FilmFavouritesFragment()
+            //val bundle = Bundle()
+            //bundle.putInt(FilmFavouritesFragment.VIEW_HOLDER_POSITION, viewHolderposition)
+            //fragment.arguments = bundle
+
+            return fragment
+        }
     }
 
-    private fun initItems() {
-        // fill only favourite items from MainActivity.items
-        Log.d(TAG, "initItems()")
-        items.clear()
-        for(i in 0 until App.films.size){
-            if (App.films[i].like) {
-                Log.d(TAG, "i=$i")
-                val item = App.films[i]
-                val favFilmItem = FilmItem(
-                     item.imageRes
-                    ,item.textRes
-                    ,item.noteRes
-                    ,item.textStr
-                    ,i  // parent item
-                )
-                favFilmItem.like = true
-                items.add(favFilmItem)
-            }
-        }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        //setContentView(R.layout.activity_favourite)
+        Log.d(TAG, "onCreate")
+
+        App.initFavouriteItems()
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_film_favourites, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        Log.d(FilmListFragment.TAG, "onViewCreated")
+
+        initRecycler()
     }
 
     private fun initRecycler() {
         val layoutManager = GridLayoutManager(
-            this,
+            this.context,
             App.getColumnsNum(),
 /*
             when(orientation) {
@@ -60,7 +71,8 @@ class FavouriteActivity : AppCompatActivity() {
         )
         mFavRecyclerView.layoutManager = layoutManager
         mFavRecyclerView.adapter = FilmItemAdapter(
-            LayoutInflater.from(this), items,
+            LayoutInflater.from(activity),
+            App.favouriteFilms,
             //ClickListener:
             { itemView, filmItem, position ->
                 itemUnlikeClick(filmItem, position)
@@ -72,7 +84,7 @@ class FavouriteActivity : AppCompatActivity() {
             }
         )
 
-        val itemDecoration = DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+        val itemDecoration = DividerItemDecoration(activity, DividerItemDecoration.VERTICAL)
         mFavRecyclerView.addItemDecoration(itemDecoration)
 
         mFavSwipeRefreshLayout.setOnRefreshListener {  }
@@ -86,8 +98,4 @@ class FavouriteActivity : AppCompatActivity() {
         }
     }
 
-    companion object {
-        private val items: MutableList<FilmItem> = ArrayList()
-        //private var orientation: Int = Configuration.ORIENTATION_UNDEFINED
-    }
 }

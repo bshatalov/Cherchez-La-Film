@@ -3,12 +3,13 @@ package com.jefflogic.cherchezlafilm
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.jefflogic.cherchezlafilm.App.Companion.getFilmSelected
 import kotlinx.android.synthetic.main.activity_details.*
 
 private val TAG: String = DetailsActivity::class.java.simpleName
 
 class DetailsActivity : AppCompatActivity(), View.OnClickListener{
-    var position = -1
+    //private var mPosition = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -16,17 +17,18 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener{
 
         // Получить переданные данные
         val intent = intent
-        position = intent.getIntExtra(POSITION_CODE, -1)
+        //mPosition = intent.getIntExtra(MainActivity.POSITION_CODE, -1)
 
-        mDetailsImageView.setImageResource(MainActivity.getItem(position).image)
-        mDetailsTextView.text = mDetailsTextView.context.getString(MainActivity.getItem(position).note)
+        mDetailsImageView.setImageResource(getFilmSelected().imageRes)
+        mDetailsTextView.text = mDetailsTextView.context.getString(getFilmSelected().noteRes)
         setImageLike()
         mDetailsImageViewLike.setOnClickListener(this)
-        mDetailsEditTextComments.setText(MainActivity.getItem(position).comment)
+        mDetailsEditTextComments.setText(getFilmSelected().comment)
     }
 
-    fun setImageLike(){
-        if (MainActivity.getItem(position).like)
+
+    private fun setImageLike(){
+        if (getFilmSelected().like)
             mDetailsImageViewLike.setImageResource(
                 R.drawable.ic_favorite_green_24dp
             )
@@ -36,9 +38,9 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener{
             )
     }
 
-    fun imageViewLikeClick() {
+    private fun imageViewLikeClick() {
         // inversion of Like
-        MainActivity.getItem(position).like = !MainActivity.getItem(position).like
+        getFilmSelected().like = !getFilmSelected().like
         setImageLike()
     }
 
@@ -51,7 +53,7 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener{
     override fun onPause() {
         super.onPause()
         //Log.d(TAG, "onPause() text: ${mDetailsEditTextComments.text}")
-        MainActivity.lastReturnedPosition = position
-        MainActivity.getItem(position).comment = mDetailsEditTextComments.text.toString()
+        //setLastReturnedPosition(mPosition)
+        getFilmSelected().comment = mDetailsEditTextComments.text.toString()
     }
 }

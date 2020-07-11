@@ -1,29 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
     >
 
-    <FrameLayout
-        android:id="@+id/mFragmentContainer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
-
-<!--
-    <fragment
-        android:id="@+id/mFragmentList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.jefflogic.cherchezlafilm.FilmListFragment"/>
--->
-
-<!--
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/mSwipeRefreshLayout"
         android:layout_width="0dp"
@@ -43,11 +26,21 @@
             app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/item_film"
             tools:itemCount="33"
-            android:clipToPadding="false" />
+            android:clipToPadding="false"
+            />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
--->
 
 <!--
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/mRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:itemCount="30"
+        tools:listitem="@layout/item_film"
+        />
+-->
+
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/mInviteFriendsBtn"
         android:layout_width="64dp"
@@ -80,6 +73,5 @@
         android:src="@drawable/ic_favorite_red_24p"
         android:background="@drawable/fab_background"
         />
--->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,12 +1,13 @@
 package com.jefflogic.cherchezlafilm
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.jefflogic.cherchezlafilm.MainActivity.Companion.getColumnsNum
-import com.jefflogic.cherchezlafilm.MainActivity.Companion.getItemPos
+import com.jefflogic.cherchezlafilm.App.Companion.getColumnsNum
+import com.jefflogic.cherchezlafilm.App.Companion.getItemRealPos
 import kotlinx.android.synthetic.main.item_favourite_film.view.*
 import kotlinx.android.synthetic.main.item_film.view.*
 
@@ -43,8 +44,10 @@ class FilmItemAdapter(val inflater: LayoutInflater, val items: MutableList<FilmI
         if (holder is FilmItemViewHolder) {
             val itemPosition = position - getColumnsNum()
             val item = items[itemPosition]
+            Log.d("FilmItemAdapter","onBindViewHolder position = $position, itemPosition = $itemPosition, text = ${item.textStr}")
             holder.bind(item, position)
-            holder.itemView.mItemDetailsButton.setOnClickListener{ clickListener(holder.itemView, item, position) }
+            //holder.itemView.mItemDetailsButton.setOnClickListener{ clickListener(holder.itemView, item, position) }
+            holder.itemView.setOnClickListener    { clickListener    (holder.itemView, item, position) }
             holder.itemView.setOnLongClickListener{ longClickListener(holder.itemView, item, position) }
         } else if (holder is FavouriteFilmItemViewHolder) {
             val itemPosition = position - getColumnsNum()
@@ -72,7 +75,7 @@ class FilmItemAdapter(val inflater: LayoutInflater, val items: MutableList<FilmI
     }
 
     fun removeAt(position: Int) {
-        items.removeAt(getItemPos(position))
+        items.removeAt(getItemRealPos(position))
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, items.size)
     }

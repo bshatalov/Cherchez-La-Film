@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/mDetailsImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="600dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:contentDescription="@string/long_description"
+            tools:src="@drawable/bond" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/mDetailsImageViewLike"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:layout_constraintBottom_toBottomOf="@+id/mDetailsImageView"
+            app:layout_constraintEnd_toEndOf="@+id/mDetailsImageView"
+            app:srcCompat="@drawable/ic_favorite_border_green_24dp"
+            tools:src="@drawable/ic_favorite_green_24dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/mDetailsTextView"
+            style="@style/Theme.AppCompat.DayNight"
+            android:layout_width="398dp"
+            android:layout_height="176dp"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mDetailsImageView"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="@string/long_description" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/mDetailsEditTextComments"
+            style="@style/Theme.AppCompat.DayNight.Dialog"
+            android:layout_width="398dp"
+            android:layout_height="176dp"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:hint="@string/detailsEditTextHint"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mDetailsTextView"
+            app:layout_constraintVertical_bias="0.0"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

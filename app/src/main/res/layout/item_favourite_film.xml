@@ -9,11 +9,13 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/mItemImageView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        tools:src="@tools:sample/avatars"
+        android:layout_width="120dp"
+        android:layout_height="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="3dp"
+        android:adjustViewBounds="true"
+        tools:src="@tools:sample/avatars"
         tools:contentDescription="@string/short_description"
         />
 

@@ -15,8 +15,8 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_margin="3dp"
         android:adjustViewBounds="true"
-        tools:contentDescription="@string/short_description"
         tools:src="@tools:sample/avatars"
+        tools:contentDescription="@string/short_description"
         />
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -31,6 +31,7 @@
         android:layout_marginStart="16dp"
         />
 
+<!--
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/mItemDetailsButton"
         android:layout_width="wrap_content"
@@ -40,6 +41,7 @@
         style="@style/TextAppearance.AppCompat.Widget.Button.Borderless.Colored"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+-->
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/mItemImageViewLike"
